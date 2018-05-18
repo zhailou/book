@@ -1,3 +1,5 @@
+<%@page import="cn.edu.nyist.bookMv1.vo.TypeVo"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -85,9 +87,21 @@
 						</label>
 						<div class="col-sm-10">
 							<select name="tid" class="form-control" id="selectTid">
+								<!--  
 								<option value="1">编程</option>
 								<option value="2">杂志</option>
 								<option value="3">烹饪</option>
+								-->
+								<!-- 动态生成option，先获取所有类型，再到jsp显示 -->
+								<%
+								List<TypeVo> ls=(List<TypeVo>)request.getAttribute("ls");
+								for(TypeVo typeVo:ls){
+									%>
+									<option value=<%=typeVo.getId()%>><%=typeVo.getName() %></option>
+									<%
+								}
+								
+								%>>
 							</select>
 						</div>
 					</div>

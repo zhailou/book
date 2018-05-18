@@ -7,6 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>书本添加</title>
+<!-- 告诉浏览器不要缩放 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="bower_components/bootstrap/dist/css/bootstrap.min.css"
 	rel="stylesheet" type="text/css" />
@@ -22,7 +23,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<form class="form-horizontal" role="form" method="post"
-					action="bookAdd" id="loginForm" enctype="multipart/form-data">
+					action="bookAdd" id="bookAddForm" enctype="multipart/form-data">
 					<!-- 使用包含文件上传的表单时，必须使用multipart/form-data -->
 					<div class="form-group">
 						<%
@@ -136,10 +137,7 @@
 		src="bower_components/jquery-validation/dist/jquery.validate.min.js">
 		
 	</script>
-	<script type="text/javascript"
-		src="bower_components/jquery-validation-bootstrap-tooltip/jquery-validate.bootstrap-tooltip.js">
-		
-	</script>
+	
 	<script type="text/javascript">
 		//点击验证码，换验证码图片
 		$(function() {
@@ -153,6 +151,42 @@
 			});
 
 		});
+		//添加验证
+		$( "#bookAddForm" ).validate( {
+				rules: {
+					name: "required",
+					photo: "required",
+					price: {
+						required: true,
+						number:true
+					},
+				},
+				messages: {
+					name: "名字必填",
+					photo: "图片必须上传",
+					price: {
+						required: "价格必填",
+						number: "必须是数字"
+					},
+				},
+				errorElement: "em",
+				errorPlacement: function ( error, element ) {
+					// Add the `help-block` class to the error element
+					error.addClass( "help-block" );
+					error.addClass( "alert alert-warning" );
+					if ( element.prop( "type" ) === "checkbox" ) {
+						error.insertAfter( element.parent( "label" ) );
+					} else {
+						error.insertAfter( element );
+					}
+				},
+				highlight: function ( element, errorClass, validClass ) {
+					$( element ).parents( ".col-sm-10" ).addClass( "has-error" ).removeClass( "has-success" );
+				},
+				unhighlight: function (element, errorClass, validClass) {
+					$( element ).parents( ".col-sm-10" ).addClass( "has-success" ).removeClass( "has-error" );
+				}
+			} )
 	</script>
 <script type="text/javascript">
 	function fillSel(types) {
@@ -164,7 +198,7 @@
 
 
 </script>
-<iframe src="findAllTypes"></iframe>
+<iframe src="findAllTypes" style="display: none;"></iframe>
 	
 </body>
 </html>

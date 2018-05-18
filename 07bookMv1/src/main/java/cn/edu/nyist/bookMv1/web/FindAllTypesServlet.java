@@ -29,7 +29,7 @@ public class FindAllTypesServlet extends HttpServlet {
 		TypeBiz typeBiz=new TypeBizImpl();
 		List<TypeVo> ls=typeBiz.findAllTypes();
 		response.setContentType("text/javascript;charset=utf-8");
-		String js="var types=[";
+		String js="[";
 		for(int i=0;i<ls.size();i++) {
 			js+="{id:"+ls.get(i).getId()+",name:'"+ls.get(i).getName()+"'}";
 			if(i<ls.size()-1) {
@@ -37,7 +37,7 @@ public class FindAllTypesServlet extends HttpServlet {
 			}
 		}
 		js+="]";
-		response.getWriter().write(js);
+		response.getWriter().write("fillSel("+js+")");
 	}
 
 	

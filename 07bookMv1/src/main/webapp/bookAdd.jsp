@@ -87,21 +87,8 @@
 						</label>
 						<div class="col-sm-10">
 							<select name="tid" class="form-control" id="selectTid">
-								<!--  
-								<option value="1">编程</option>
-								<option value="2">杂志</option>
-								<option value="3">烹饪</option>
-								-->
-								<!-- 动态生成option，先获取所有类型，再到jsp显示 -->
-								<%
-								List<TypeVo> ls=(List<TypeVo>)request.getAttribute("ls");
-								for(TypeVo typeVo:ls){
-									%>
-									<option value=<%=typeVo.getId()%>><%=typeVo.getName() %></option>
-									<%
-								}
-								
-								%>>
+
+
 							</select>
 						</div>
 					</div>
@@ -167,6 +154,16 @@
 
 		});
 	</script>
+<script type="text/javascript">
+	function fillSel() {
+	var sel=document.getElementById("selectTid");
+	for(var i=0;i<types.length;i++){
+			sel.appendChild(new Option(types[i].name,types[i].id));
+		}
+}
 
+
+</script>
+	<script type="text/javascript" src="findAllTypes" onload="fillSel()"></script>
 </body>
 </html>

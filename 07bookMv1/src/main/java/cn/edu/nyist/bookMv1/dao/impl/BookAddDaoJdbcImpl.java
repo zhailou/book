@@ -3,29 +3,28 @@ package cn.edu.nyist.bookMv1.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Date;
-
 import cn.edu.nyist.bookMv1.dao.BookAddDao;
 import cn.edu.nyist.bookMv1.util.DsUtil;
+import cn.edu.nyist.bookMv1.vo.BookAddVo;
 
 public class BookAddDaoJdbcImpl implements BookAddDao {
 
-	public int save(int tid, String name, String descri, double price, String author, String newFileName,Date pubDate) {
-		//Á¬½Ó¡¢²éÑ¯Êý¾Ý¿â
+	public int save(BookAddVo bookAddVo) {
+		//ï¿½ï¿½ï¿½Ó¡ï¿½ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½Ý¿ï¿½
 		Connection conn=null;
 		PreparedStatement stmt=null;
 		try {
 			conn=DsUtil.getconn();
 			String sql="insert into t_book(tid,name,descri,price,author,photo,pubDate) values(?,?,?,?,?,?,?) ";
 			stmt=conn.prepareStatement(sql);
-			stmt.setInt(1, tid);
-			stmt.setString(2, name);
-			stmt.setString(3,descri );
-			stmt.setDouble(4, price);
-			stmt.setString(5, author);
-			stmt.setString(6, newFileName);
-			//½«java.utilÀàÐÍµÄpubDate£¬×ªÎªjava.sqlÀàÐÍµÄ
-			stmt.setDate(7, new java.sql.Date(pubDate.getTime()));
+			stmt.setInt(1, bookAddVo.getTid());
+			stmt.setString(2, bookAddVo.getName());
+			stmt.setString(3,bookAddVo.getDescri() );
+			stmt.setDouble(4, bookAddVo.getPrice());
+			stmt.setString(5, bookAddVo.getAuthor());
+			stmt.setString(6, bookAddVo.getPhoto());
+			//ï¿½ï¿½java.utilï¿½ï¿½ï¿½Íµï¿½pubDateï¿½ï¿½×ªÎªjava.sqlï¿½ï¿½ï¿½Íµï¿½
+			stmt.setDate(7, new java.sql.Date(bookAddVo.getPubDate().getTime()));
 			int ret=stmt.executeUpdate();
 			return ret;
 			

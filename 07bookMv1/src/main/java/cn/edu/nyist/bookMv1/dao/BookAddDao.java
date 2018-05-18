@@ -1,9 +1,9 @@
 package cn.edu.nyist.bookMv1.dao;
 
-import java.util.Date;
+import cn.edu.nyist.bookMv1.vo.BookAddVo;
 
 public interface BookAddDao {
 
-	int save(int tid, String name, String descri, double price, String author, String newFileName, Date pubDate);
+	int save(BookAddVo bookAddVo);
 
 }

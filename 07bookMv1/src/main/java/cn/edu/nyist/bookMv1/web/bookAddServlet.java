@@ -1,9 +1,6 @@
 package cn.edu.nyist.bookMv1.web;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -16,9 +13,11 @@ import javax.servlet.http.Part;
 
 import cn.edu.nyist.bookMv1.biz.BookAddBiz;
 import cn.edu.nyist.bookMv1.biz.impl.BookAddBizImpl;
+import cn.edu.nyist.bookMv1.util.MyBeanUtils;
+import cn.edu.nyist.bookMv1.vo.BookAddVo;
 
 @WebServlet("/bookAdd")
-//ÎÄ¼şÉÏ´«±ØĞë¼Ó
+//é‚å›¦æ¬¢æ¶“å©ç´¶è¹‡å‘´ã€é”ï¿½
 @MultipartConfig
 public class bookAddServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -31,19 +30,20 @@ public class bookAddServlet extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//½â¾öÎÄ¼şÉÏ´«ÎÊÌâ
-		request.setCharacterEncoding("utf-8");//½â¾öÂÒÂëÎÊÌâ
+		//ç‘™ï½…å–…é‚å›¦æ¬¢æ¶“å©ç´¶é—‚î‡€î•½
+		request.setCharacterEncoding("utf-8");//ç‘™ï½…å–…æ¶”è¾©çˆœé—‚î‡€î•½
 		Part part = request.getPart("photo");
-		//»ñÈ¡ÎÄ¼şÃû
+		//é‘¾å³°å½‡é‚å›¦æ¬¢éšï¿½
 		String fileName = part.getHeader("Content-Disposition").split(";")[2].split("=")[1].replace("\"", "");
-		// ½â¾öIEÏÂ´íÎóÎÊÌâ
+		// ç‘™ï½…å–…IEæ¶“å¬®æ•Šç’‡îˆæ£¶æ£°ï¿½
 		fileName = fileName.lastIndexOf("\\") == -1 ? fileName : fileName.substring(fileName.lastIndexOf("\\") + 1);
-		//´æÔÚhibernate.cfg.xmlÕâÖÖÎÄ¼şÃû
+		//ç€›æ¨ºæ¹ªhibernate.cfg.xmlæ©æ¬‘î’é‚å›¦æ¬¢éšï¿½
 		String ext = fileName.substring(fileName.lastIndexOf('.') + 1);
 		String newFileName = UUID.randomUUID().toString() + "." + ext;
 		part.write(request.getServletContext().getRealPath("upload/" + newFileName));
 		
-		//»ñÈ¡²ÎÊı
+		//é‘¾å³°å½‡é™å‚›æšŸ
+		/*
 		String strtid=request.getParameter("tid");
 		int tid=Integer.parseInt(strtid);
 		String name=request.getParameter("name");
@@ -51,7 +51,7 @@ public class bookAddServlet extends HttpServlet {
 		String strprice=request.getParameter("price");
 		double price=Double.parseDouble(strprice);
 		String author=request.getParameter("author");
-		//½«»ñÈ¡µÄ×Ö·û´®×ª»¯ÎªDateÀàĞÍ
+		//çå—šå¹é™æ «æ®‘ç€›æ¥ƒîƒæ¶“èŒ¶æµ†é–æ ¦è´ŸDateç»«è¯²ç€·
 		String strpubDate=request.getParameter("pubDate");
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		Date pubDate=null;
@@ -70,18 +70,20 @@ public class bookAddServlet extends HttpServlet {
 //			//System.out.println("****************************");
 //			e.printStackTrace();
 //		}
-		
-	
-		
-		//µ÷ÓÃÒµÎñ²ã
+		*/
+		//è‡ªåŠ¨è·å–å‚æ•°
+		BookAddVo bookAddVo=new BookAddVo();
+		MyBeanUtils.populate(bookAddVo, request.getParameterMap(), "yyyy-MM-dd");
+		bookAddVo.setPhoto(newFileName);
+		//ç’‹å†ªæ•¤æ¶“æ°¬å§Ÿçï¿½
 		BookAddBiz bookAddBiz=new BookAddBizImpl();
-		int ret=bookAddBiz.saveBook(tid,name,descri,price,author,newFileName,pubDate);
-		//¸ù¾İ²éÑ¯½á¹û·µ»Ø¸øÓÃ»§ĞÅÏ¢
+		int ret=bookAddBiz.saveBook(bookAddVo);
+		//éè§„åµéŒãƒ¨î‡—ç¼æ’´ç‰æ©æ–¿æ´–ç¼æ¬‘æ•¤é´èœ‚ä¿Šé­ï¿½
 		response.setContentType("text/html;Charset=utf-8");
 		if(ret>0) {
-			response.getWriter().write("Êé±¾Ìí¼Ó³É¹¦");
+			response.getWriter().write("æ·»åŠ æˆåŠŸ");
 		}else {
-			request.setAttribute("msg", "Êé±¾Ìí¼ÓÊ§°Ü");
+			request.setAttribute("msg", "æ·»åŠ å¤±è´¥");
 			request.getRequestDispatcher("bookAdd.jsp").forward(request, response);
 		}
 	}

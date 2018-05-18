@@ -164,6 +164,7 @@
 
 
 </script>
-	<script type="text/javascript" src="findAllTypes" ></script>
+<iframe src="findAllTypes"></iframe>
+	
 </body>
 </html>

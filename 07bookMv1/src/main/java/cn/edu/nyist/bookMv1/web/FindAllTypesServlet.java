@@ -28,7 +28,8 @@ public class FindAllTypesServlet extends HttpServlet {
 		//2、 调用业务层层
 		TypeBiz typeBiz=new TypeBizImpl();
 		List<TypeVo> ls=typeBiz.findAllTypes();
-		response.setContentType("text/javascript;charset=utf-8");
+		response.setContentType("text/html;charset=utf-8");
+		response.getWriter().write("<script>");
 		String js="[";
 		for(int i=0;i<ls.size();i++) {
 			js+="{id:"+ls.get(i).getId()+",name:'"+ls.get(i).getName()+"'}";
@@ -37,7 +38,8 @@ public class FindAllTypesServlet extends HttpServlet {
 			}
 		}
 		js+="]";
-		response.getWriter().write("fillSel("+js+")");
+		response.getWriter().write("window.parent.fillSel("+js+")");
+		response.getWriter().write("</script>");
 	}
 
 	

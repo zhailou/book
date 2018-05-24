@@ -11,6 +11,8 @@ public interface BookDao {
 	List<BookVo> findAll(int pageNo, String name, int tid);
 
 	int getTotal(String name, int tid);
+
+	boolean del(int id);
 	
 
 }

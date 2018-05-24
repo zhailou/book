@@ -38,4 +38,10 @@ public class BookBizImpl implements BookBiz {
 		return typeDao.findAll();
 	}
 
+	@Override
+	public boolean delById(int id) {
+		BookDao bookDao=new BookDaoJdbcImpl();
+		return bookDao.del(id);
+	}
+
 }

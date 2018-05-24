@@ -64,7 +64,7 @@
 					
 					<thead>
 					<tr>
-						<td colspan="8">
+						<td colspan="9">
 							<form class="form-inline" id="searchFrom">
 								<div class="form-group">
 									<label for="inputName">书名</label> 
@@ -107,6 +107,7 @@
 							<th>price</th>
 							<th>author</th>
 							<th>pubDate</th>
+							<th>操作</th>
 						</tr>
 					</thead>
 					
@@ -125,13 +126,17 @@
 							<td><%=bookVo.getPrice()%></td>
 							<td><%=bookVo.getAuthor()%></td>
 							<td><%=bookVo.getPubDate()%></td>
+							<td>
+							<a href="bookDel?id=<%=bookVo.getId()%>" class="glyphicon glyphicon-trash" title="删除" onclick="conFormDel(event)"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+							<a href="toBookEdit?id=<%=bookVo.getId()%>" class="glyphicon glyphicon-pencil"></a>
+							</td>
 						</tr>
 
 						<%
 							}
 						%>
 						<tr>
-							<td colspan="8" class="text-center">
+							<td colspan="9" class="text-center">
 								<ul class="pagination" style="margin-top: -8px;">
 									<%
 										int pageNo = (Integer) request.getAttribute("pageNo");//获取当前页
@@ -231,6 +236,12 @@
 			this.href+="&"+$("#searchFrom").serialize();
 		});
 		});
+	function conFormDel(event){
+		//取消默认删除行为
+		if(!confirm("确定删除!")){
+				event.preventDefault();
+			}
+	};
 	</script>
 </body>
 </html>

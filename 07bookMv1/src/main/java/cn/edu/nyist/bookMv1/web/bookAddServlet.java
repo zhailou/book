@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import cn.edu.nyist.bookMv1.biz.BookAddBiz;
-import cn.edu.nyist.bookMv1.biz.impl.BookAddBizImpl;
+import cn.edu.nyist.bookMv1.biz.BookBiz;
+import cn.edu.nyist.bookMv1.biz.impl.BookBizImpl;
 import cn.edu.nyist.bookMv1.util.MyBeanUtils;
-import cn.edu.nyist.bookMv1.vo.BookAddVo;
+import cn.edu.nyist.bookMv1.vo.BookVo;
 
 @WebServlet("/bookAdd")
 //鏂囦欢涓婁紶蹇呴』鍔�
@@ -72,11 +72,11 @@ public class bookAddServlet extends HttpServlet {
 //		}
 		*/
 		//自动获取参数
-		BookAddVo bookAddVo=new BookAddVo();
+		BookVo bookAddVo=new BookVo();
 		MyBeanUtils.populate(bookAddVo, request.getParameterMap(), "yyyy-MM-dd");
 		bookAddVo.setPhoto(newFileName);
 		//璋冪敤涓氬姟灞�
-		BookAddBiz bookAddBiz=new BookAddBizImpl();
+		BookBiz bookAddBiz=new BookBizImpl();
 		int ret=bookAddBiz.saveBook(bookAddVo);
 		//鏍规嵁鏌ヨ缁撴灉杩斿洖缁欑敤鎴蜂俊鎭�
 		response.setContentType("text/html;Charset=utf-8");

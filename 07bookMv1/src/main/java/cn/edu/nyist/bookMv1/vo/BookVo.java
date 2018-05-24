@@ -3,7 +3,7 @@ package cn.edu.nyist.bookMv1.vo;
 import java.io.Serializable;
 import java.util.Date;
 
-public class BookAddVo implements Serializable {
+public class BookVo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int id;
@@ -14,7 +14,7 @@ public class BookAddVo implements Serializable {
 	private String author;
 	private String photo;
 	private Date pubDate;
-	public BookAddVo() {
+	public BookVo() {
 		
 	}
 	public int getId() {

@@ -3,7 +3,15 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%
+//权限拦截，如果登陆不成功就不能进行增删改等操作
+		if(request.getSession().getAttribute("loginSuccess")==null||!request.getSession().getAttribute("loginSuccess").equals("1")) {
+			//表示没注册过，或登陆失败
+			response.sendRedirect("login.jsp");//转到登陆页面
+			return;//不让程序往下执行
+		}
+%>
+<!DOCTYPE html >
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">

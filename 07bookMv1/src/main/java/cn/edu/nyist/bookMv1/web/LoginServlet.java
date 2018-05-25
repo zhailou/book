@@ -24,37 +24,37 @@ public class LoginServlet extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 1¡¢»ñÈ¡ÓÃ»§ÊäÈë
+		// 1ï¿½ï¿½ï¿½ï¿½È¡ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½
 				String name = request.getParameter("name");
 				String pwd = request.getParameter("pwd");
 
 				// System.out.println(name + " " + pwd);
-				// ½«ÓÃ»§ÊäÈëµÄÑéÖ¤ÂëÓë²úÉúµÄÑéÖ¤Âë½øĞĞ¶Ô±È£¬Èç¹û²»µÈ£¬Ôò²»ÄÜÁ¬½ÓÊı¾İ¿â£¬Òò´ËÒªÔÚ²éÑ¯Êı¾İ¿âÖ®Ç°¶Ô±È
-				String vcode = request.getParameter("vcode");// ½ÓÊÜ¿Í»§¶ËÊäÈëµÄÑéÖ¤Âë
+				// ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½Ğ¶Ô±È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¿â£¬ï¿½ï¿½ï¿½Òªï¿½Ú²ï¿½Ñ¯ï¿½ï¿½ï¿½İ¿ï¿½Ö®Ç°ï¿½Ô±ï¿½
+				String vcode = request.getParameter("vcode");// ï¿½ï¿½ï¿½Ü¿Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½
 				HttpSession session = request.getSession();
-				String serverVcode = (String) session.getAttribute("validateCode");// »ñÈ¡ÏµÍ³²úÉúµÄÑéÖ¤Âë
+				String serverVcode = (String) session.getAttribute("validateCode");// ï¿½ï¿½È¡ÏµÍ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½
 
-				if (!vcode.equalsIgnoreCase(serverVcode)) {// ¶Ô±È
-					// ²»µÈÊ±£¬ÒªÏÔÊ¾ÑéÖ¤Âë´íÎó£¬ÓÃ»§Ãû»ØÌî
-					request.setAttribute("msg", "ÑéÖ¤Âë´íÎó");
-					request.setAttribute("name", name);// Ê§°ÜÓÃ»§Ãû»ØÌî
+				if (!vcode.equalsIgnoreCase(serverVcode)) {
+					
+					request.setAttribute("msg", "éªŒè¯ç é”™è¯¯");
+					request.setAttribute("name", name);// Ê§ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					request.getRequestDispatcher("login.jsp").forward(request, response);
 					return;
 				}
-				// 2¡¢µ½Êı¾İ¿â±È¶Ô
-				//µ÷ÓÃÒµÎñ²ã
+				// 2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½È¶ï¿½
+				//ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½
 				AdminBiz adminBiz=new AdminBizImpl();
 				boolean ret=adminBiz.findAdminByNameAndPwd(name,pwd);
-				// ÅĞ¶ÏÒ»°Ñ£¬Ê§°Ü»¹µ½µÇÂ¼Ò³Ãæ£¬³É¹¦µ½Ö÷Ò³Ãæ
+				//ç»™ç”¨æˆ·å“åº”
 				if (ret) {
-					// ³É¹¦
+					//è®°å½•ä¸‹ç™»é™†æˆåŠŸçš„ä¿¡æ¯
+					request.getSession().setAttribute("loginSuccess", "1");
 					response.sendRedirect("main.jsp");
 				} else {
-					// Ê§°Ü
-					// Ê§°ÜÊ±ÏÔÊ¾£ºÓÃ»§Ãû»òÃÜÂë´íÎó
-					request.setAttribute("msg", "ÓÃ»§Ãû»òÃÜÂë´íÎó");
+					
+					request.setAttribute("msg", "ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯");
 					request.setAttribute("name", name);
-					;// Ê§°ÜÓÃ»§Ãû»ØÌî
+					
 					request.getRequestDispatcher("login.jsp").forward(request, response);
 				}
 

@@ -30,7 +30,12 @@ public class DoBookEditServlet extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		//权限拦截，如果登陆不成功就不能进行增删改等操作
+				if(request.getSession().getAttribute("loginSuccess")==null||!request.getSession().getAttribute("loginSuccess").equals("1")) {
+					//表示没注册过，或登陆失败
+					response.sendRedirect("login.jsp");//转到登陆页面
+					return;//不让程序往下执行
+				}
 		request.setCharacterEncoding("utf-8");
 		Part part = request.getPart("photo");
 		//获取上传文件

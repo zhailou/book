@@ -122,7 +122,7 @@
 							<td><%=bookVo.getName()%></td>
 							<td><%=bookVo.getDescri()%></td>
 							<td><img alt="" src="upload/<%=bookVo.getPhoto()%>"
-								style="width: 80px"></td>
+								style="max-height: 150px"></td>
 							<td><%=bookVo.getPrice()%></td>
 							<td><%=bookVo.getAuthor()%></td>
 							<td><%=bookVo.getPubDate()%></td>

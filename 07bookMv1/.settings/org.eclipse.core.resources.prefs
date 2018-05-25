@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/main/java/cn/edu/nyist/bookMv1/util/MyBeanUtils.java=UTF-8
+encoding//src/main/java/cn/edu/nyist/bookMv1/web/DoBookEditServlet.java=UTF-8
 encoding//src/main/java/cn/edu/nyist/bookMv1/web/bookAddServlet.java=UTF-8
 encoding//src/main/webapp/bookAdd.jsp=UTF-8
 encoding//src/main/webapp/bookList.jsp=UTF-8

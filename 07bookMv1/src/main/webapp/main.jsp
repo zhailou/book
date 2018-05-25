@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%
-//权限拦截，如果登陆不成功就不能进行增删改等操作
-		if(request.getSession().getAttribute("loginSuccess")==null||!request.getSession().getAttribute("loginSuccess").equals("1")) {
-			//表示没注册过，或登陆失败
-			response.sendRedirect("login.jsp");//转到登陆页面
-			return;//不让程序往下执行
-		}
-%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,9 +36,7 @@
 								data-toggle="dropdown">书籍管理<strong class="caret"></strong></a>
 								<ul class="dropdown-menu">
 									<li><a href="bookAdd.jsp">添加</a></li>
-									<li><a href="#">删除</a></li>
-									<li><a href="#">修改</a></li>
-									<li><a href="#">查找</a></li>
+									<li><a href="bookList">查看</a></li>
 
 
 
@@ -54,7 +45,7 @@
 
 						<ul class="nav navbar-nav navbar-right">
 							<li><a href="#">修改密码</a></li>
-							<li><a href="#">登录</a></li>
+							<li><a href="exit.jsp">退出</a></li>
 
 						</ul>
 					</div>

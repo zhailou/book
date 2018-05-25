@@ -24,12 +24,7 @@ public class FindAllTypesServlet extends HttpServlet {
 
 //动态获取图书类型
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//权限拦截，如果登陆不成功就不能进行增删改等操作
-				if(request.getSession().getAttribute("loginSuccess")==null||!request.getSession().getAttribute("loginSuccess").equals("1")) {
-					//表示没注册过，或登陆失败
-					response.sendRedirect("login.jsp");//转到登陆页面
-					return;//不让程序往下执行
-				}
+		
 		//1、获取参数,此处不用做了
 		//2、 调用业务层层
 		TypeBiz typeBiz=new TypeBizImpl();

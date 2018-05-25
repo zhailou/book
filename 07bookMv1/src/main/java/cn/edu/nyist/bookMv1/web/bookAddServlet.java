@@ -30,12 +30,7 @@ public class bookAddServlet extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//权限拦截，如果登陆不成功就不能进行增删改等操作
-		if(request.getSession().getAttribute("loginSuccess")==null||!request.getSession().getAttribute("loginSuccess").equals("1")) {
-			//表示没注册过，或登陆失败
-			response.sendRedirect("login.jsp");//转到登陆页面
-			return;//不让程序往下执行
-		}
+		
 		//瑙ｅ喅鏂囦欢涓婁紶闂
 		request.setCharacterEncoding("utf-8");//瑙ｅ喅涔辩爜闂
 		Part part = request.getPart("photo");

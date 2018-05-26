@@ -38,6 +38,9 @@ public class BookListServlet extends HttpServlet {
 		}
 		//获取tid，name
 				String name=request.getParameter("name");
+				if(name!=null&&!name.equals("")) {
+					name=new String(name.getBytes("iso-8859-1"),"utf-8");
+				}
 				String strTid=request.getParameter("tid");
 				int   tid=-1;
 				 try {

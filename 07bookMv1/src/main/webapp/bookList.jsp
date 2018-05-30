@@ -3,7 +3,7 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -62,43 +62,45 @@
 			<div class="col-md-12">
 				<!-- 此处应添加表格 -->
 				<table class="table table-hover table-bordered">
-					
+
 					<thead>
-					<tr>
-						<td colspan="9">
-							<form class="form-inline" id="searchFrom">
-								<div class="form-group">
-									<label for="inputName">书名</label> 
-									<!-- 书名回填-->
-									<input type="text" class="form-control" id="inputName" name="name" value='<%=request.getAttribute("name") == null ? "" : request.getAttribute("name")%>'>
-								</div>
-								<div class="form-group">
-									<label for="selTid">类型</label> 
-									<select id="selTid" name="tid" class="form-control">
-									<option value="-1">--请选择--</option>
-									<% 
-									List<TypeVo> ls2=(List<TypeVo>)request.getAttribute("types");
-									int tid = (Integer) request.getAttribute("tid");
-									for(TypeVo typeVo:ls2){
-										if(tid==typeVo.getId()){
-											%>
-											<option selected="selected" value="<%=typeVo.getId() %>" ><%=typeVo.getName() %></option>
-											<%
-										}else{
-											%>
-											<option value="<%=typeVo.getId() %>" ><%=typeVo.getName() %></option>
-											<%
-										}
-									}		
-									%>
-									</select>
-									
-									
-								</div>
-								<button type="submit" class="btn btn-default">搜索</button>
-							</form>
-						</td>
-					</tr>
+						<tr>
+							<td colspan="9">
+								<form class="form-inline" id="searchFrom">
+									<div class="form-group">
+										<label for="inputName">书名</label>
+										<!-- 书名回填-->
+										<input type="text" class="form-control" id="inputName"
+											name="name"
+											value='<%=request.getAttribute("name") == null ? "" : request.getAttribute("name")%>'>
+									</div>
+									<div class="form-group">
+										<label for="selTid">类型</label> <select id="selTid" name="tid"
+											class="form-control">
+											<option value="-1">--请选择--</option>
+
+											<c:forEach items="${requestScope.types}" var="typeVo">
+												<c:choose>
+													<c:when test="${requestScope.tid==requestScope.id}">
+														<option selected="selected" value="${typeVo.id }">${typeVo.name }</option>
+													</c:when>
+													<c:otherwise>
+														<option value="${typeVo.id }">${typeVo.name }</option>
+													</c:otherwise>
+												</c:choose>
+
+											</c:forEach>
+
+
+
+										</select>
+
+
+									</div>
+									<button type="submit" class="btn btn-default">搜索</button>
+								</form>
+							</td>
+						</tr>
 						<tr>
 							<th>id</th>
 							<th>tid</th>
@@ -111,94 +113,83 @@
 							<th>操作</th>
 						</tr>
 					</thead>
-					
-					<tbody>
-						<%
-							List<BookVo> ls = (List<BookVo>) request.getAttribute("ls");
-							for (BookVo bookVo : ls) {
-						%>
-						<tr>
-							<td><%=bookVo.getId()%></td>
-							<td><%=bookVo.getTid()%></td>
-							<td><%=bookVo.getName()%></td>
-							<td><%=bookVo.getDescri()%></td>
-							<td><img alt="" src="upload/<%=bookVo.getPhoto()%>"
-								style="max-height: 150px"></td>
-							<td><%=bookVo.getPrice()%></td>
-							<td><%=bookVo.getAuthor()%></td>
-							<td><%=bookVo.getPubDate()%></td>
-							<td>
-							<a href="bookDel?id=<%=bookVo.getId()%>" class="glyphicon glyphicon-trash" title="删除" onclick="conFormDel(event)"></a>&nbsp;&nbsp;&nbsp;&nbsp;
-							<a href="toBookEdit?id=<%=bookVo.getId()%>" class="glyphicon glyphicon-pencil"></a>
-							</td>
-						</tr>
 
-						<%
-							}
-						%>
+					<tbody>
+						
+						
+						<c:forEach items="${requestScope.ls }" var="bookVo">
+						<tr>
+							<td>${bookVo.id}</td>
+							<td>${bookVo.tid}</td>
+							<td>${bookVo.name}</td>
+							<td>${bookVo.descri}</td>
+							<td><img alt="" src="upload/${bookVo.photo}"
+								style="height: 150px"></td>
+							<td>${bookVo.price}</td>
+							<td>${bookVo.author}</td>
+							<td>${bookVo.pubDate}</td>
+							<td><a href="bookDel?id=${v.id}"
+								class="glyphicon glyphicon-trash" title="删除"
+								onclick="conFormDel(event)"></a>&nbsp;&nbsp;&nbsp;&nbsp; <a
+								href="toBookEdit?id=${bookVo.id}"
+								class="glyphicon glyphicon-pencil" title="修改"></a></td>
+						</tr>
+						</c:forEach>
+						
+						
+						
+						
 						<tr>
 							<td colspan="9" class="text-center">
 								<ul class="pagination" style="margin-top: -8px;">
-									<%
-										int pageNo = (Integer) request.getAttribute("pageNo");//获取当前页
-										if (pageNo == 1) {
-									%>
-									<li class="disabled"><a href="#">&lt&lt</a></li>
-									<%
-										} else {
-									%>
-									<li><a href="bookList?pageNo=<%=pageNo - 1%>">&lt&lt</a></li>
-									<%
-										}
-									%>
-
-									<%
-										int totalPage = (Integer) request.getAttribute("totalPage");//获取总页数
-										if (totalPage <= 5) {
-											for (int i = 1; i <= totalPage; i++) {
-									%>
-									<li><a href="bookList?pageNo=<%=i%>"><%=i%></a></li>
-									<%
-										}
-
-										} else if (pageNo <= 3) {
-									%>
-									<li><a href="bookList?pageNo=1">1</a></li>
+								
+								<c:choose>
+								<c:when test="${requestScope.pageNo==1 }">
+								<li class="disabled"><a href="#">&lt&lt</a></li>
+								</c:when>
+								<c:otherwise>
+								<li><a href="bookList?pageNo=${requestScope.pageNo-1 }">&lt&lt</a></li>
+								</c:otherwise>
+								</c:choose>
+								
+								
+								<c:choose>
+								<c:when test="${requestScope.totalPage<=5}">
+								<c:forEach begin="1" end="${requestScope.totalPage}" var="i">
+								<li><a href="bookList?pageNo=${i}">${i}</a></li>
+								</c:forEach>
+								</c:when>
+								<c:when test="${requestScope.pageNo<=3}">
+								<li><a href="bookList?pageNo=1">1</a></li>
 									<li><a href="bookList?pageNo=2">2</a></li>
 									<li><a href="bookList?pageNo=3">3</a></li>
 									<li><a href="bookList?pageNo=4">4</a></li>
-									<li><a href="bookList?pageNo=<%=totalPage%>"><%=totalPage%></a></li>
-									<%
-										} else if (pageNo >= totalPage - 2) {
-									%>
-									<li><a href="bookList?pageNo=1">1..</a></li>
-									<li><a href="bookList?pageNo=<%=totalPage - 3%>"><%=totalPage - 3%></a></li>
-									<li><a href="bookList?pageNo=<%=totalPage - 2%>"><%=totalPage - 2%></a></li>
-									<li><a href="bookList?pageNo=<%=totalPage - 1%>"><%=totalPage - 1%></a></li>
-									<li><a href="bookList?pageNo=<%=totalPage%>"><%=totalPage%></a></li>
-									<%
-										} else {
-									%>
-									<li><a href="bookList?pageNo=1">1..</a></li>
-									<li><a href="bookList?pageNo=<%=pageNo - 1%>"><%=pageNo - 1%></a></li>
-									<li><a href="bookList?pageNo=<%=pageNo%>"><%=pageNo%></a></li>
-									<li><a href="bookList?pageNo=<%=pageNo + 1%>"><%=pageNo + 1%></a></li>
-									<li><a href="bookList?pageNo=<%=totalPage%>">..<%=totalPage%></a></li>
-									<%
-										}
-									%>
+									<li><a href="bookList?pageNo=${requestScope.totalPage}">${requestScope.totalPage}</a></li>
+								</c:when>
+								<c:when test="${requestScope.pageNo>=requestScope.totalPage-2}">
+								<li><a href="bookList?pageNo=1">1..</a></li>
+									<li><a href="bookList?pageNo=${requestScope.totalPage-3}">${requestScope.totalPage-3}</a></li>
+									<li><a href="bookList?pageNo=${requestScope.totalPage-2}">${requestScope.totalPage-2}</a></li>
+									<li><a href="bookList?pageNo=${requestScope.totalPage-1}">${requestScope.totalPage-1}</a></li>
+									<li><a href="bookList?pageNo=${requestScope.totalPage}">${requestScope.totalPage}</a></li>
+								</c:when>
+								<c:otherwise><li><a href="bookList?pageNo=1">1..</a></li>
+									<li><a href="bookList?pageNo=${requestScope.pageNo-1}">${requestScope.pageNo<=3}</a></li>
+									<li><a href="bookList?pageNo=${requestScope.pageNo}">${requestScope.pageNo}</a></li>
+									<li><a href="bookList?pageNo=${requestScope.pageNo+1}">${requestScope.pageNo+1}</a></li>
+									<li><a href="bookList?pageNo=${requestScope.totalPage}">..${requestScope.totalPage}</a></li></c:otherwise>
+								</c:choose>
+								
+								
+								<c:choose>
+								<c:when test="${requestScope.pageNo==requestScope.totalPage}">
+								<li class="disabled"><a href="#">&gt&gt</a></li>
+								</c:when>
+								<c:otherwise>
+								<li><a href="bookList?pageNo=${requestScope.pageNo+1 }">&gt&gt</a></li>
+								</c:otherwise>
+								</c:choose>
 									
-									<%
-										if (pageNo == totalPage) {
-									%>
-									<li class="disabled"><a href="#">&gt&gt</a></li>
-									<%
-										} else {
-									%>
-									<li><a href="bookList?pageNo=<%=pageNo + 1%>">&gt&gt</a></li>
-									<%
-										}
-									%>
 
 								</ul>
 							</td>
@@ -230,19 +221,18 @@
 	</script>
 	<script type="text/javascript">
 	$(function() {
-		$("a[href='bookList?pageNo=<%=pageNo%>']").parent("li").addClass(
-					"active");
-		//修改链接，在搜索后面追加name和id
-		$(".pagination a[href^='bookList?pageNo=']").click(function () {
-			this.href+="&"+$("#searchFrom").serialize();
+		$("a[href='bookList?pageNo=${requestScope.pageNo}']").parent("li").addClass("active");
+			//修改链接，在搜索后面追加name和id
+			$(".pagination a[href^='bookList?pageNo=']").click(function() {
+				this.href += "&" + $("#searchFrom").serialize();
+			});
 		});
-		});
-	function conFormDel(event){
-		//取消默认删除行为
-		if(!confirm("确定删除!")){
+		function conFormDel(event) {
+			//取消默认删除行为
+			if (!confirm("确定删除!")) {
 				event.preventDefault();
 			}
-	};
+		};
 	</script>
 </body>
 </html>
